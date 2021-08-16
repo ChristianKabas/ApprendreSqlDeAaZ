@@ -165,10 +165,53 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
     ``` sql
     valeur NOT IN (valeur1,valeur2);
     ```
-- BETWEEN
-  - On utilise l'operateur **BETWEEN** dans la clause **WHERE** pour vérifier si une valeur est comprise dans une interval
+- #### BETWEEN
+  - On utilise l'operateur **BETWEEN** dans la clause **WHERE** pour vérifier si une valeur est comprise dans un interval
   - Syntaxe :
     ``` sql
     valeur BETWEEN 3 AND 12;
     ```
-  
+  - **BETWEEN** remplace l'utilisation de >= et <=
+  - Syntaxe :
+    ``` sql
+    valeur >= 3 AND valeur <= 12;
+    ```
+  - On utilise l'opérateur ** NOT BETWEEN** dans la clause **WHERE** pour vérifier si une valeur n'est pas comprise dans une interval
+  - Syntaxe :
+    ``` sql
+    valeur NOT BETWEEN 3 AND 12;
+    ```
+  - *Exemple* :
+    ``` sql
+    SELECT customer_id,amount FROM payment WHERE amount BETWEEN 0 AND 2;
+    ```
+    Avec **NOT BETWEEN**
+    ``` sql
+    SELECT customer_id,amount FROM payment WHERE amount NOT BETWEEN 0 AND 2;
+    ```
+    Interval par date
+    ``` sql
+    SELECT DISTINCT customer_id,amount,payment_date FROM payment WHERE payment_date BETWEEN '2005-05-01' AND '2005-06-29';
+    ```
+- #### Fonctions d'agrégation
+  - AVG() = Average
+  - MIN() = Minimum
+  - MAX() = Maximum
+  - SUM() = La somme
+  - *Exemple* :
+    - Avec **AVG**
+      ``` sql
+      SELECT ROUND(AVG(amount), 2) FROM payment;
+      ```
+    - Avec **MIN**
+      ``` sql
+      SELECT MIN(amount) FROM payment;
+      ```
+    - Avec **MAX**
+      ``` sql
+      SELECT MAX(amount) FROM payment;
+      ```
+    - Avec **SUM**
+      ``` sql
+      SELECT SUM(amount) FROM payment;
+      ```
