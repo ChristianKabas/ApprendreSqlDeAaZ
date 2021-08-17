@@ -1,4 +1,4 @@
-# Les Fondamentaux de SQL
+# Apprendre le SQL
 ## Somaire
 ``` sql
 - Les fondamentaux des requêtes SQL
@@ -12,6 +12,7 @@ Nous allons travailler sur la base de donnée SKILA:
 page d'installation **[sakila-installation](https://dev.mysql.com/doc/sakila/en/sakila-installation.html)**.
 ### Structured Query Language
 Le **SQL** (Structured Query Language) est un langage permettant de communiquer avec une base de données. Ce langage informatique est notamment très utilisé par les développeurs web pour communiquer avec les données d’un site web. SQL.sh recense des cours de SQL et des explications sur les principales commandes pour lire, insérer, modifier et supprimer des données dans une base.
+### Les Fondamentaux de SQL
 - #### SELECT
   - Une des tâches les plus récurrentes est d'interroger une base de donnée en utilisant la declaration **SELECT**
   - Elle a beacoup de clauses que vous pouvez combiner pour former une requête puissante
@@ -215,3 +216,125 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
       ``` sql
       SELECT SUM(amount) FROM payment;
       ```
+  - #### GROUP BY
+    - Un des outils les plus importants dans SQL
+    - La clause **GROUP BY** permet de regrouper plusieurs résultats
+    - Pour chaque groupe, on peut appliquer une fonction d'agrégation
+    - *Exemple* :
+      - Calculer la somme
+      - compter le nombre d'éléments dans chaque groupe
+    - Syntaxe :
+      ``` sql
+      SELECT colonne1,fonction_agregation(colonne2) FROM table GROUP BY colonne1;
+      ```
+    - *Exemple* :
+      - *Exemple 1* :
+        ``` sql
+        SELECT customer_id,AVG(amount) FROM payment GROUP BY customer_id ORDER BY 2 DESC;
+        ```
+      - *Exemple 2* :
+        ``` sql
+        SELECT staff_id,COUNT(*) FROM payment GROUP BY staff_id ORDER BY 2 DESC;
+        ```
+      - *Exemple 3* :
+        ``` sql
+        SELECT rating,COUNT(rating) FROM film GROUP BY rating;
+        ```
+      - *Exemple 4* :
+        ``` sql
+        SELECT rating,ROUND(AVG(rental_rate),2) FROM film GROUP BY rating;
+        ```
+      - *Exemple 5* :
+        ``` sql
+        SELECT rental_duration,COUNT(rental_duration) FROM film GROUP BY rental_duration;
+        ```
+- HAVING
+  - On utilise souvent la clause **HAVING** avec la clause **GROUP BY** pour filtrer les groupes de résultats qui ne satisfassent pas une condition précise
+  - Syntaxe :
+    ``` sql
+    SELECT colonne1,fontion_agregation(colonne2) FROM table GROUP BY colonne1 HAVING condition;
+    ```
+  - **HAVING** est different de **WHERE**
+  - **HAVING** appliquent des conditions sur les groupes de résultat créés par **GROUP BY** alors que **WHERE** appliquent des conditions sur les lignes individuelles
+  - *Exemple* :
+    - *Exemple 1* :
+    ``` sql
+    SELECT customer_id,SUM(amount) FROM payment GROUP BY customer_id HAVING SUM(amount) > 200;
+    ```
+    - *Exemple 2* :
+    ``` sql
+    SELECT store_id,COUNT(customer_id) AS 'Nombre de client' FROM customer GROUP BY store_id HAVING COUNT(customer_id) > 300;
+    ```
+    - *Exemple 3* :
+    ``` sql
+    SELECT rating, AVG(rental_rate) FROM film WHERE rating IN('PG','R','G') GROUP BY rating HAVING AVG(rental_rate)<3;
+    ```
+### Les Jointures
+  ``` sql
+  - Combiner plusieurs tables utilisants JOIN
+  - Type de jointures
+  - Union
+  ```
+- Sélectionner les données se trouvant dans plusieurs tables
+    - Principe : Une jointure a lieu entre deux tables. Elle exprime une correspondance entre deux clés par un critère d'égalité
+      - *Exemple* :
+        - Pour lire l'adresse correspondant à chaque personne, il faut faire une jointure entre la table Personne et Adresse
+        
+        | Personne |
+        |----------|
+        |ID  int   |
+        |Nom  varchar(30)   |
+        |Prenom  varchar(30)   |
+        |Adress#  int   |
+
+        | Adresse |
+        |----------|
+        |ID  int   |
+        |Voie  varchar(200)   |
+        |CP  int   |
+        |Ville  varchar(50)   |
+- #### OUTER JOIN / RIGHT JOIN
+  - Permet de retourner tous les enregistrements de la table de droite (right = droite) même s'il n'y a pas de correspondance avec la table de gauche
+  - Syntaxe :
+    ``` sql
+    SELECT * FROM tabl1 RIGHT JOIN table2 ON table1.id=table2.id;
+    ```
+  - *Exemple* :
+    ``` sql
+    SELECT
+       c.customer_id,
+       c.first_name,
+       c.last_name,
+       a.actor_id,
+       a.first_name,
+       a.last_name 
+    FROM customer c
+    RIGHT JOIN actor a
+    ON c.last_name = a.last_name;
+    ```
+- #### INNER JOIN
+  - Permets de lier plusieurs tables entre-elles
+  - Retourne les enregistrements lorsqu'il y a au moins une ligne dans chaque colonne qui correspond à la condition
+  - Syntaxe :
+    ``` sql
+    SELECT * FROM table1 INNER JOIN table2 ON table1.id=table2.id;
+    ```
+  - *Exemple* :
+    ``` sql
+    SELECT
+       c.customer_id,
+       c.first_name,
+       c.last_name,
+       c.email,
+       p.amount,
+       p.payment_date
+    FROM customer c
+    INNER JOIN payment p ON c.customer_id = p.customer_id
+    WHERE first_name LIKE 'H%';
+    ```
+- #### OUTER JOIN / LEFT JOIN
+  - Permet de lister tous les résultats de la table de gauche (left = gauche) même s'il n'y a pas de correspondance dans la deuxième tables
+  - Syntaxe :
+    ``` sql
+    
+    ```
