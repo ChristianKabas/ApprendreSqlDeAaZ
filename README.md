@@ -336,5 +336,163 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
   - Permet de lister tous les résultats de la table de gauche (left = gauche) même s'il n'y a pas de correspondance dans la deuxième tables
   - Syntaxe :
     ``` sql
-    
+    SELECT * FROM table1 LEFT JOIN table2 ON table1.id=table2.id;
     ```
+  - *Exemple* :
+    - *Exemple 1* :
+      ``` sql
+      SELECT f.film_id,f.title,i.inventory_id FROM film f LEFT JOIN inventory i ON i.film_id = f.film_id;
+      ```
+    - *Exemple 2* :
+      ``` sql
+      SELECT f.film_id,f.title,i.inventory_id
+      FROM film f LEFT JOIN inventory i ON i.film_id = f.film_id
+      WHERE i.film_id IS NULL
+      ORDER BY f.title;
+      ```
+    - *Exemple 3* :
+      ``` sql
+      SELECT f.film_id,f.title,i.inventory_id
+      FROM film f LEFT JOIN inventory i ON i.film_id = f.film_id
+      WHERE i.inventory_id IS NULL
+      ORDER BY f.title;
+      ```
+### Types de jointures
+  - INNER JOIN
+  - RIGHT JOIN
+  - FULL JOIN
+  - LEFT JOIN
+  - #### UNION
+    - Permet de mettre bout-à-bout les résultats de plusieurs requêtes utilisant elles-même la commande SELECT
+    - Permet de concaténer les résultats de deux requêtes ou plus
+    - `Condition` : chacune des requêtes à concaténer retournes le même nombre de colonnes, avec les mêmes types de données et dans le même ordre
+    - Syntaxe :
+      ``` sql
+      SELECT * FROM table1 UNION SELECT * FROM table2:
+      ```
+## SQL Avancés 
+  ``` sql
+  - Fonctions mathématiques
+  - Fonctions de dates et heure
+  - Fonctions et opérateurs de chaîne de caractère
+  - Sous-requêtes
+  ```
+- ### Fonctions de dates et heures
+  - SQL permet d\'utiliser des données de type *Date* et *Heure*
+  - Plus tard, nous allons voir comment créer ce type de données
+  - Ici, on va se focaliser sur l\'extraction des informations de ces données
+  - La fonction **EXTRACT()** extrait une partie d\'une date donnée
+  - On peut extraire tout type d\'information
+  - *Exemple* :
+    ``` sql
+    SELECT EXTRACT(MONTH FROM '2017-06-15');
+    ```
+  - Syntaxe :
+    ``` sql
+    EXTRACT(part FROM date);
+    ```
+    - #### PART :
+      > -  MICROSECOND
+      > -  SECOND
+      > -  MINUTE
+      > -  HOUR
+      > -  DAY
+      > -  WEEK
+      > -  MONTH
+      > -  QUARTER
+      > -  YEAR
+      > -  SECOND-MICROSECOND
+      > -  MINUTE-MICROSECOND
+      > -  MINUTE-SECOND
+      > -  HOUR-MICROSECOND
+      > -  HOUR-SECOND
+      > -  HOUR-MINUTE
+      > -  DAY-MICROSECOND
+      > -  DAY-SECOND
+      > -  DAY-MINUTE
+      > -  DAY-HOUR
+      > -  YEAR_MONTH
+    - Se référer a : <br />
+      **[Function MySQL Extract](https://www.w3schools.com/mysql/func_mysql_extract.asp)**
+    - *Exemple* :
+      - *Exemple 1* :
+        ``` sql
+        SELECT EXTRACT(day FROM payment_date) FROM payment;
+        ```
+      - *Exemple 2* :
+        ``` sql
+        SELECT EXTRACT(month FROM payment_date) FROM payment;
+        ```
+      - *Exemple 3* :
+        ``` sql
+        SELECT EXTRACT(year FROM payment_date) FROM payment;
+        ```
+      - *Exemple 4* :
+        ``` sql
+        SELECT DISTINCT EXTRACT(year FROM payment_date) AS 'Année' FROM payment;
+        ```
+      - *Exemple 5* :
+        ``` sql
+        SELECT EXTRACT(month FROM payment_date) AS 'Mois',
+        SUM(amount)
+        FROM payment
+        GROUP BY EXTRACT(month FROM payment_date)
+        ORDER BY 1 ASC;
+        ```
+      - *Exemple 6* :
+        ``` sql
+        SELECT EXTRACT(month FROM payment_date) AS 'Mois',
+        SUM(amount)
+        FROM payment
+        GROUP BY Mois
+        ORDER BY 1 ASC;
+        ```
+### Fonctions Mathématique
+  - SQL fournit plusieurs opérateurs mathématiques permettant de manipuler les colonnes de type numérique
+  - Pour avoir la liste de ces opérateurs :
+    **[Mathematical functions](https://dev.mysql.com/doc/refman/8.0/en/numeric-functions.html)**
+  - ### Opérateurs arithmétiques
+  
+  |Nom|Description|
+  |----|----|
+  |%, MOD|Modulo operator|
+  |*|Multiplication operator|
+  |+|Addition operator|
+  |-|Minus operator|
+  |-|Change the sign of the argument|
+  |/|Division operator|
+  |DIV|Integer division|
+  - *Exemple* :
+    - *Exemple 1* :
+      ``` sql
+      SELECT EXTRACT(month FROM payment_date) AS 'Mois',
+       SUM(amount/100)
+      FROM payment
+      GROUP BY Mois
+      ORDER BY 1 ASC;
+      ```
+    - *Exemple 2* :
+      ``` sql
+      SELECT EXTRACT(month FROM payment_date) AS 'Mois',
+       SUM(amount*2)
+      FROM payment
+      GROUP BY Mois
+      ORDER BY 1 ASC;
+      ```
+    - *Exemple 3* :
+      ``` sql
+      SELECT EXTRACT(month FROM payment_date) AS 'Mois',
+       SUM(amount+20)
+      FROM payment
+      GROUP BY Mois
+      ORDER BY 1 ASC;
+      ```
+    - *Exemple 4* :
+      ``` sql
+      SELECT ROUND(AVG(amount)) FROM payment;
+      ```
+### Fonctions de chaînes de caractères
+  - SQL fournit plusieurs opérateurs permettant de manipuler les colonnes de type chaînes de caractères
+  - Pour avoir la liste de ces opérateurs :
+  **[String functions](https://dev.mysql.com/doc/refman/8.0/en/string-functions.html)**
+  - 
