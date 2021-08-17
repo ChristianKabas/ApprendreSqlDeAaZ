@@ -370,7 +370,7 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
       ``` sql
       SELECT * FROM table1 UNION SELECT * FROM table2:
       ```
-## SQL Avancés 
+## SQL Avancés
   ``` sql
   - Fonctions mathématiques
   - Fonctions de dates et heure
@@ -495,4 +495,51 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
   - SQL fournit plusieurs opérateurs permettant de manipuler les colonnes de type chaînes de caractères
   - Pour avoir la liste de ces opérateurs :
   **[String functions](https://dev.mysql.com/doc/refman/8.0/en/string-functions.html)**
-  - 
+### Sous-requêtes
+  - Consiste à exécuter une requête à l\'intérieur d\'une autre requête
+  - Souvent utilisée au sein d\'une clause **WHERE** ou de **HAVING** pour remplacer une ou plusieurs constantes
+  - Supposons que nous voulions trouver les films dont le tarif de location est supérieur au taux de location moyen
+  - Nous pouvons le faire en deux étapes :
+    - Rechercher le tarif de location moyenne (AVG)
+    - Utiliser le résultat de la première requete dans la deuxième instruction **SELECT** pour trouver les films que vous souhaitez
+  - Pour contruire une sous-requête, nous plaçons la seconde requête entre paranthèses et nous l\'utilisons dans la clause **WHERE** en tant qu\'expression
+  - Syntaxe :
+    ``` sql
+    SELECT colonne1,colonne2,colonne3 
+    FROM table
+    WHERE rental_rate > (SELECT AVG(colonne3) FROM table);
+    ```
+  - *Exemple* :
+    ``` sql
+    SELECT film_id,title,rental_rate
+    FROM film
+    WHERE rental_rate > (SELECT AVG(rental_rate) FROM film);
+    ```
+### Création et modification des tables
+  - Objectifs de cette section :
+  ``` sql
+  - Types de données
+  - Clé primaire (PRIMARY KEY) et clé étrangère (FOREIGN KEY)
+  - CREATE TABLE
+  - INSERT - UPDATE - DELETE
+  - ALTER TABLE - DROP TABLE
+  - Contraintes
+  ```
+  - ### TYPES DE DONNÉES
+  - MySQL supporte principalement les types de données suivants :
+    - Boolean
+    - Caractère
+    - Nombre
+    - Date
+  - ### Types de données : Boolean
+    - Un boolean peut contenir une des deux valeurs possible : **TRUE** ou **FALSE**. Dans le cas ou la valeur n\est pas connue, la valeur **NULL** est utilisée
+    - Quand on déclare une colonne qui contient des boolean, on utilise le mot-clé **boolean**
+    - Quand on insert une donnée dans une colonne de type **Boolean**, MySQL va la convertir en valeur Boolean
+    - *Exemple* :
+      - > 1, yes, y, t, true vont être convertis en true
+      - > O, no, n, false vont être convertis en false
+    - Quand on sélectionne une donnée d\'une colonne **BOOLEAN**, MySQL affiche t pour true et f pour false et espace pour **NULL**
+  - ### Types de données : Caractère
+    - Un seul caractère : **char**
+    - Une chaîne de caractère de longueur fixe : **char(n)**. Si on insère une donnée de longueur inférieure a n, MySQL va compléter avec des espaces. Si la longueur est superieur a n, MySQL renvoie une erreur
+    - Une chaîne de caractère de longueur variable : **varchar(n)**. On peut y stocker des données jusqu\'a n caractère. MySQL ne complètera pas avec des espaces si la longueur est inférieur a n
