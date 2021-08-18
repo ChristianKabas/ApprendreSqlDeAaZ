@@ -626,5 +626,160 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
   - La première chose à faire est d\'insérer des données dans cette table
   - On utilise la clause **INSERT** pour insérer des données dans la table
   - On peut insérer une ligne ou plusieurs lignes d\'un coup
-  - 
+  - Syntaxe :
+    ``` sql
+    INSERT INTO table(colonne1,colonne2,...)
+    VALUES(valeur1,valeur2,...);
+    ```
+  - On spécifie le nom de la table dans laquelle on souhaite insérer des données. Entre parenthèse, on indique la liste des colonnes
+  - On indique la liste des valeurs entre parenthèses précédée par **VALUES**
+  - Pour ajouter plusieurs lignes à la fois
+  - Syntaxe :
+    ``` sql
+    INSERT INTO table(colonne1,colonne2,...)
+    VALUES(valeur1,valeur2,...),
+          (valeur1,valeur2),...;
+    ```
+  - *Exemple* :
+    - Insérer qu\'une ligne
+      ``` sql
+      INSERT INTO lien(url, name, description)
+      VALUES ('www.jobkids.com','Job Kids','Job Kids met en relation les entreprises est les particulier.');
+      ```
+    - Insérer plusieurs lignes
+      ``` sql
+      INSERT INTO lien(url, name, description)
+      VALUES ('www.amazon.fr','Amazon','Amazon est un site e-commerce.'),
+             ('www.google.com','Google','Google moteur de recherche.');
+      ```
+  - Pour copier la structure d\'une table
+  - Syntaxe :
+    ``` sql
+    CREATE TABLE nouvelle_table LIKE ancienne_table;
+    ```
+  - Exemple :
+    ``` sql
+    CREATE TABLE lien_copy LIKE lien;
+    ```
+  - Insérer une donnée de l\'ancienne table
+  - *Exemple* :
+    ``` sql
+    INSERT INTO lien_copy
+    SELECT * FROM lien WHERE name='Be Secured';
+    ```
+  ### UPDATE
+  - Pour changer la valeur d\'une colonne, on utilise la clause **UPDATE**
+  - Syntaxe :
+    ``` sql
+    UPDATE table SET colonne1=valeur1,colonne2=valeur2 WHERE condition;
+    ```
+  - *Exemple* :
+    ``` sql
+    UPDATE lien SET description='BeSecured est une société des prestations informatique.'
+    WHERE name='Be Secured';
+    ```
+  ### DELETE
+  - Pour supprimer des lignes d\'une table, on utilise la clause **DELETE**
+  - Syntaxe :
+    ``` sql
+    DELETE FROM table WHERE condition;
+    ```
+  - La clause **DELETE** retourne le nombre de lignes supprimées
+  - Si aucune ligne n\'est supprimé, clause **DELETE** retourne 0
+  - *Exemple* :
+    ``` sql
+    DELETE FROM lien WHERE lien.ID<>1;
+    ```
+  ### ALTER TABLE
+  - Pour changer la structure d\'une table existante, on utilise la clause **ALTER TABLE**
+  - Syntaxe :
+    ``` sql
+    ALTER TABLE nom_table action;
+    ```
+  - **MySQL** fournit plusieurs actions qui permettent de :
+    - **Ajouter**, **supprimer** ou **renommer** une colonne
+    - Mettre une valeur par défaut our une colonne
+    - Ajouter une contrainte **CHECK** à une colonne
+    - Renommer une table
+  - Les mots-clés à utiliser sont :
+    > - **ADD COLUMN**
+    > - **DROP COLUMN**
+    > - **RENAME COLUMN**
+    > - **ADD CONSTRAINT**
+    > - **RENAME TO**
+  - *Exemple* :
+    ``` sql
+    SELECT * FROM lien;
+    ALTER TABLE lien ADD COLUMN active boolean;
+    DESCRIBE lien;
+    ALTER TABLE lien DROP COLUMN active;
+    DESCRIBE lien;
+    ALTER TABLE lien RENAME COLUMN name TO nom;
+    ALTER TABLE lien RENAME TO table_des_websites;
+    SELECT * FROM table_des_websites;
+    ```
+  ### DROP TABLE
+  - Pour supprimer une table existante de la base de données, on utilise la clause **DROP TABLE**
+  - Syntaxe :
+    ``` sql
+    DROP TABLE [IF EXISTS] nom_table;
+    ```
+  - **IF EXISTS** est optionnelle, elle permet de vérifier si la table existe avant de la supprimer. Cela permet d\'éviter des erreurs
+  - *Exemple* :
+    ``` sql
+    DROP TABLE table_des_websites;
+    ```
+    ou
+    ``` sql
+    DROP TABLE IF EXISTS table_des_websites;
+    ```
+    ou
+    ``` sql
+    DROP TABLE IF EXISTS table_des_websites CASCADE;
+    ```
+### VUE
+  - Une **VUE** est un objet stocké de base de données
+  - Une **VUE** est table virtuelle dans **MySQL**
+  - Une **VUE** est une représentation des données d\'une ou plusieurs tables sous-jacentes
+  - Une **VUE** est un objet stocké de base de données représentant une requête
+  - Une **VUE** simplifie la complexité d\'une requête
+  - Comme pour les tables, on peut donner des droits aux utilisateurs sur la VUE
+  - La **VUE** montre simplement le résultat d\'une requête SQL spécifique
+  - Syntaxe :
+    ``` sql
+    CREATE VIEW nom_de_la_vue AS (SELECT ...);
+    ```
+  - *Exemple* :
+    ``` sql
+    CREATE VIEW info_client AS (
+        SELECT first_name,last_name,email,address,phone
+        FROM customer c
+        JOIN address a
+        ON c.address_id = a.address_id
+    );
     
+    SELECT * FROM info_client;
+    ```
+    - #### Renommer une **VUE**
+      - Syntaxe :
+        ``` sql
+        RENAME TABLE ancien_nom TO nouveau_nom;
+        ```
+      - *exemple* :
+        ``` sql
+        RENAME TABLE info_client TO clients;
+        ```
+      - #### Supprimer une **VUE**
+        - Syntaxe :
+        ``` sql
+        RENAME TABLE ancien_nom TO nouveau_nom;
+        ```
+        - *exemple* :
+        ``` sql
+        RENAME TABLE info_client TO clients;
+        ```
+## License
+
+GNU
+
+**Christian KABASELE, SQL**
