@@ -8,14 +8,14 @@
 - Vues
 ```
 
-Nous allons travailler sur la base de donnée SKILA:
+Nous allons travailler sur la base de donnée SKILA :
 page d'installation **[sakila-installation](https://dev.mysql.com/doc/sakila/en/sakila-installation.html)**.
 ### Structured Query Language
 Le **SQL** (Structured Query Language) est un langage permettant de communiquer avec une base de données. Ce langage informatique est notamment très utilisé par les développeurs web pour communiquer avec les données d’un site web. SQL.sh recense des cours de SQL et des explications sur les principales commandes pour lire, insérer, modifier et supprimer des données dans une base.
 ### Les Fondamentaux de SQL
 - #### SELECT
-  - Une des tâches les plus récurrentes est d'interroger une base de donnée en utilisant la declaration **SELECT**
-  - Elle a beacoup de clauses que vous pouvez combiner pour former une requête puissante
+  - Une des tâches les plus récurrentes est d\'interroger une base de donnée en utilisant la declaration **SELECT**
+  - Elle a beaucoup de clauses que vous pouvez combiner pour former une requête puissante
   - Syntaxe :
     ``` sql
     SELECT colonne1,colonne2 FROM table;
@@ -50,7 +50,7 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
   - La clause **WHERE** vient après la clause **FROM**
   - Les conditions sont utilisées pour filtrer les lignes à retourner
   - **MySQL** fournit des opérateurs pour construire les conditions
-  - #####Les opérateurs de comparaison
+  - ##### Les opérateurs de comparaison
     - Arithmétiques
   
       | Opérateur | Description |
@@ -77,26 +77,49 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
   - *Exemple* : <br />
     *exemple 1* :
     ``` sql
-    SELECT first_name,last_name FROM customer WHERE first_name='christian';
+    SELECT first_name,last_name 
+    FROM customer 
+    WHERE first_name='christian';
     ```
     *exemple 2* :
     ``` sql
-    SELECT first_name,last_name FROM customer WHERE first_name='christian' AND last_name='jung';
+    SELECT first_name,last_name 
+    FROM customer 
+    WHERE first_name='christian' 
+    AND last_name='jung';
     ```
     *exemple 3* :
     ``` sql
-    SELECT first_name,last_name FROM payment WHERE first_name='christian' OR first_name='david';
+    SELECT first_name,last_name 
+    FROM payment 
+    WHERE first_name='christian' 
+    OR first_name='david';
+    ```
+  - #### Savoir dans quel ordre sont utilisé chacun des commandes au sein d’une requête SELECT
+    ``` sql
+    SELECT *
+    FROM table
+    WHERE condition
+    GROUP BY expression
+    HAVING condition
+    { UNION | INTERSECT | EXCEPT }
+    ORDER BY expression
+    LIMIT count
+    OFFSET start
     ```
 - #### AS (alias)
   - AS est utilisée pour renommer temporairement une colonne ou une table dans une requête.
   - Cette astuce est utile pour faciliter la lecture des requêtes
   - Syntaxe :
     ``` sql
-    SELECT colonne1 AS 'Colonne 1',colonne2 AS 'Colonne 2' FROM table;
+    SELECT colonne1 AS 'Colonne 1',colonne2 AS 'Colonne 2' 
+    FROM table;
     ```
   - *Exemple* :
     ``` sql
-    SELECT first_name AS 'Prenom du Client',last_name AS 'Nom du Client' FROM customer;
+    SELECT first_name AS 'Prenom du Client',
+        last_name AS 'Nom du Client' 
+    FROM customer;
     ```
 - #### La fonction COUNT
   - La fonction **COUNT** retourne le nombre de lignes dans une table qui répondent aux conditions de la requêtes
@@ -128,13 +151,13 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
     SELECT first_name,last_name FROM customer LIMIT 10;
     ```
 - #### ORDER BY
-  - **ORDER BY** permet de trier les lignes dans un résultat d'une requête SQL
+  - **ORDER BY** permet de trier les lignes dans un résultat d\'une requête SQL
   - Trier les données sur une plusieurs colonnes par order ascendant ou descendant
   - Syntaxe :
     ``` sql
     SELECT colonne1,colonne2 FROM table ORDER BY colone1;
     ```
-  - Par défaut les résultats sont classés par order ascendant, toutefois il est possible d'inverser l'ordre en utilisant le suffixe ** DESC** après le nom de la colonne
+  - Par défaut les résultats sont classés par order ascendant, toutefois il est possible d\'inverser l\'ordre en utilisant le suffixe **DESC** après le nom de la colonne
   - Syntaxe :
     ``` sql
     SELECT colonne1,colonne2 FROM table ORDER BY colone1 DESC;
@@ -145,7 +168,7 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
     ```
 - #### LIKE
   - **LIKE** est utilisé dans la clause **WHERE**
-  - Ce mot-clé permet d'effectuer une recherche sur des valeurs qui :
+  - Ce mot-clé permet d\'effectuer une recherche sur des valeurs qui :
     - Commencent par une ...
     - Contient ...
     - Se terminent par ...
@@ -153,7 +176,10 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
     - On souhaite avoir les clients dont le prénom commence par **J**
     - Syntaxe :
       ``` sql
-      SELECT colonne1,colonne2 FROM client WHERE colonne1 LIKE 'J%';
+      SELECT colonne1,colonne2 
+      FROM client 
+      WHERE colonne1 
+      LIKE 'J%';
       ```
 - #### IN
   - On utilise l'opérateur **IN** dans la clause **WHERE** pour vérifier si une valeur est égale à une des valeurs comprises dans une liste de valeurs déterminées
@@ -167,17 +193,17 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
     valeur NOT IN (valeur1,valeur2);
     ```
 - #### BETWEEN
-  - On utilise l'operateur **BETWEEN** dans la clause **WHERE** pour vérifier si une valeur est comprise dans un interval
+  - On utilise l\'opérateur **BETWEEN** dans la clause **WHERE** pour vérifier si une valeur est comprise dans un interval
   - Syntaxe :
     ``` sql
     valeur BETWEEN 3 AND 12;
     ```
-  - **BETWEEN** remplace l'utilisation de >= et <=
+  - **BETWEEN** remplace l\'utilisation de >= et <=
   - Syntaxe :
     ``` sql
     valeur >= 3 AND valeur <= 12;
     ```
-  - On utilise l'opérateur ** NOT BETWEEN** dans la clause **WHERE** pour vérifier si une valeur n'est pas comprise dans une interval
+  - On utilise l\'opérateur **NOT BETWEEN** dans la clause **WHERE** pour vérifier si une valeur n\'est pas comprise dans une interval
   - Syntaxe :
     ``` sql
     valeur NOT BETWEEN 3 AND 12;
@@ -188,11 +214,17 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
     ```
     Avec **NOT BETWEEN**
     ``` sql
-    SELECT customer_id,amount FROM payment WHERE amount NOT BETWEEN 0 AND 2;
+    SELECT customer_id,amount 
+    FROM payment 
+    WHERE amount 
+    NOT BETWEEN 0 AND 2;
     ```
     Interval par date
     ``` sql
-    SELECT DISTINCT customer_id,amount,payment_date FROM payment WHERE payment_date BETWEEN '2005-05-01' AND '2005-06-29';
+    SELECT DISTINCT customer_id,amount,payment_date 
+    FROM payment 
+    WHERE payment_date 
+    BETWEEN '2005-05-01' AND '2005-06-29';
     ```
 - #### Fonctions d'agrégation
   - AVG() = Average
@@ -230,44 +262,69 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
     - *Exemple* :
       - *Exemple 1* :
         ``` sql
-        SELECT customer_id,AVG(amount) FROM payment GROUP BY customer_id ORDER BY 2 DESC;
+        SELECT customer_id,AVG(amount) 
+        FROM payment 
+        GROUP BY customer_id 
+        ORDER BY 2 DESC;
         ```
       - *Exemple 2* :
         ``` sql
-        SELECT staff_id,COUNT(*) FROM payment GROUP BY staff_id ORDER BY 2 DESC;
+        SELECT staff_id,COUNT(*) 
+        FROM payment 
+        GROUP BY staff_id 
+        ORDER BY 2 DESC;
         ```
       - *Exemple 3* :
         ``` sql
-        SELECT rating,COUNT(rating) FROM film GROUP BY rating;
+        SELECT rating,COUNT(rating) 
+        FROM film 
+        GROUP BY rating;
         ```
       - *Exemple 4* :
         ``` sql
-        SELECT rating,ROUND(AVG(rental_rate),2) FROM film GROUP BY rating;
+        SELECT rating,ROUND(AVG(rental_rate),2) 
+        FROM film 
+        GROUP BY rating;
         ```
       - *Exemple 5* :
         ``` sql
-        SELECT rental_duration,COUNT(rental_duration) FROM film GROUP BY rental_duration;
+        SELECT rental_duration,COUNT(rental_duration) 
+        FROM film 
+        GROUP BY rental_duration;
         ```
 - HAVING
   - On utilise souvent la clause **HAVING** avec la clause **GROUP BY** pour filtrer les groupes de résultats qui ne satisfassent pas une condition précise
   - Syntaxe :
     ``` sql
-    SELECT colonne1,fontion_agregation(colonne2) FROM table GROUP BY colonne1 HAVING condition;
+    SELECT colonne1,fontion_agregation(colonne2) 
+    FROM table 
+    GROUP BY colonne1 
+    HAVING condition;
     ```
   - **HAVING** est different de **WHERE**
   - **HAVING** appliquent des conditions sur les groupes de résultat créés par **GROUP BY** alors que **WHERE** appliquent des conditions sur les lignes individuelles
   - *Exemple* :
     - *Exemple 1* :
     ``` sql
-    SELECT customer_id,SUM(amount) FROM payment GROUP BY customer_id HAVING SUM(amount) > 200;
+    SELECT customer_id,SUM(amount) 
+    FROM payment 
+    GROUP BY customer_id 
+    HAVING SUM(amount) > 200;
     ```
     - *Exemple 2* :
     ``` sql
-    SELECT store_id,COUNT(customer_id) AS 'Nombre de client' FROM customer GROUP BY store_id HAVING COUNT(customer_id) > 300;
+    SELECT store_id,COUNT(customer_id) AS 'Nombre de client' 
+    FROM customer 
+    GROUP BY store_id 
+    HAVING COUNT(customer_id) > 300;
     ```
     - *Exemple 3* :
     ``` sql
-    SELECT rating, AVG(rental_rate) FROM film WHERE rating IN('PG','R','G') GROUP BY rating HAVING AVG(rental_rate)<3;
+    SELECT rating, AVG(rental_rate) 
+    FROM film 
+    WHERE rating IN('PG','R','G') 
+    GROUP BY rating 
+    HAVING AVG(rental_rate)<3;
     ```
 ### Les Jointures
   ``` sql
@@ -297,7 +354,10 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
   - Permet de retourner tous les enregistrements de la table de droite (right = droite) même s'il n'y a pas de correspondance avec la table de gauche
   - Syntaxe :
     ``` sql
-    SELECT * FROM tabl1 RIGHT JOIN table2 ON table1.id=table2.id;
+    SELECT * 
+    FROM tabl1 
+    RIGHT JOIN table2 
+    ON table1.id=table2.id;
     ```
   - *Exemple* :
     ``` sql
@@ -317,7 +377,10 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
   - Retourne les enregistrements lorsqu'il y a au moins une ligne dans chaque colonne qui correspond à la condition
   - Syntaxe :
     ``` sql
-    SELECT * FROM table1 INNER JOIN table2 ON table1.id=table2.id;
+    SELECT * 
+    FROM table1 
+    INNER JOIN table2 
+    ON table1.id=table2.id;
     ```
   - *Exemple* :
     ``` sql
@@ -336,24 +399,34 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
   - Permet de lister tous les résultats de la table de gauche (left = gauche) même s'il n'y a pas de correspondance dans la deuxième tables
   - Syntaxe :
     ``` sql
-    SELECT * FROM table1 LEFT JOIN table2 ON table1.id=table2.id;
+    SELECT * 
+    FROM table1 
+    LEFT JOIN table2 
+    ON table1.id=table2.id;
     ```
   - *Exemple* :
     - *Exemple 1* :
       ``` sql
-      SELECT f.film_id,f.title,i.inventory_id FROM film f LEFT JOIN inventory i ON i.film_id = f.film_id;
+      SELECT f.film_id,f.title,i.inventory_id 
+      FROM film f 
+      LEFT JOIN inventory i 
+      ON i.film_id = f.film_id;
       ```
     - *Exemple 2* :
       ``` sql
       SELECT f.film_id,f.title,i.inventory_id
-      FROM film f LEFT JOIN inventory i ON i.film_id = f.film_id
+      FROM film f 
+      LEFT JOIN inventory i 
+      ON i.film_id = f.film_id
       WHERE i.film_id IS NULL
       ORDER BY f.title;
       ```
     - *Exemple 3* :
       ``` sql
       SELECT f.film_id,f.title,i.inventory_id
-      FROM film f LEFT JOIN inventory i ON i.film_id = f.film_id
+      FROM film f 
+      LEFT JOIN inventory i 
+      ON i.film_id = f.film_id
       WHERE i.inventory_id IS NULL
       ORDER BY f.title;
       ```
