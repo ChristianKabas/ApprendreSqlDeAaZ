@@ -543,3 +543,88 @@ Le **SQL** (Structured Query Language) est un langage permettant de communiquer 
     - Un seul caractère : **char**
     - Une chaîne de caractère de longueur fixe : **char(n)**. Si on insère une donnée de longueur inférieure a n, MySQL va compléter avec des espaces. Si la longueur est superieur a n, MySQL renvoie une erreur
     - Une chaîne de caractère de longueur variable : **varchar(n)**. On peut y stocker des données jusqu\'a n caractère. MySQL ne complètera pas avec des espaces si la longueur est inférieur a n
+  - ### Types de données : Nombre
+    - **Small Integer** : entier de 2-byte qui peut contenir des valeurs de **-32768** a **32767**
+    - **Integer** (**int**) : entier de 4-byte qui peut contenir des valeurs de **-214783648** a **214783648**
+    - **float(n)** : Un petit nombre avec un point decimal flottant. Le nombre maximum de chiffres peut être spécifié dans le paramètre **n**
+    - **double(n)** : Un grand nombre avec un point décimal flottant. Le nombre maximum de chiffres peut être spécifié dans le paramètre **n**
+  - ### Clé Primaire et Clé Étrangère
+  - #### La clé primaire
+    - Une clé primaire est une colonne utilisée pour identifier une ligne unique dans la table
+    - On définit les clés primaires par le biais de contraintes de clé primaire
+    - Une table peut avoir une seule clé primaire
+    - C'est une bonne pratique de mettre une clé primaire a chaque table
+    - Quand on ajoute une clé primaire, MySQL crée un index unique sur la colonne utilisée pour définir la clé primaire
+  - On ajoute la clé primaire a une table pendant la création de cette table en utilisant la clause **CREATE TABLE**
+  - Syntaxe :
+    ``` sql
+    CREATE TABLE nom_de_la_table(
+        nom_colonne1 type_donnees PRIMARY KEY,
+        nom_colonne2 type_donnees,
+        nom_colonne3 type_donnees
+    );
+    ```
+  - #### La clé étrangère
+    - Une clé étrangère identifie une colonne ou un ensemble de colonnes d\'une table comme référençant une colonne ou un ensemble de colonnes d\'une autre table (la table référencée ou la table parent)
+    - En d\'autre mot, une clé étrangère est définie dans une table pour faire référence a une clé primaire dans une autre table
+    - Une table peut avoir plusieurs clés étrangères dans sa relation avec d\'autres tables
+    - Dans MySQL, on définit une clé étrangère par le biais d\'une contrainte **Clé Étrangère**
+    - Une **Clé Étrangère indique que les valeurs d\'une colonne dans la table référencée sont les mêmes que dans la table référencent
+    - Pour créer une nouvelle table dans MySQL, on utilise la clause **CREATE TABLE**
+    - Syntaxe :
+      ``` sql
+      CREATE TABLE nom_table(
+      nom_colonne TYPE contraint_colonne,
+      contraint_table)
+      INHERITS nom_table_existante;
+      ```
+      > *INHERITS clause optionnelle*
+    #### Contrainte de Colonne
+    - **NOT NULL** : la valeur de la colonne ne peut pas être **NULL**
+    - **UNIQUE** : la valeur de la colonne doit être unique dans toute la table
+    - **PRIMARY KEY** : cette contrainte est une combinaison de **UNIQUE** et **NOT NULL**
+    - Vous pouvez définir une colonne en tant que clé primaire en utilisant une contrainte au niveau de la colonne. Si la clé primaire contient plusieurs colonnes, vou devez utiliser la contrainte au niveau de la table
+    - **CHECK** : permet de vérifier une condition quand on insère ou met à jour une donnée
+    - *Exemple* : 
+      - Les valeurs de la colonne prix de table produit doivent être positives
+    - **REFERENCES** : contraint la valeur de la colonne qui existe dans une colonne d\'une autre table
+    #### Contrainte de Table
+    - **UNIQUE(list_colonne)** : forcer les valeurs de la liste des colonnes entre parenthèses d'\être uniques
+    - **PRIMARY KEY(list_colonne)** : définir la clé primaire composée de plusieurs colonnes
+    - **CHECK(condition)** : vérifier une condition lors de l\'insertion ou de la mise à jour de données
+    - **REFERENCES** : contraint la valeur de la colonne qui existe dans une colonne d\'une autre table
+    - *Exemple* :
+      - Création de la table **account**
+        ``` sql
+        CREATE TABLE account(
+        user_id INT PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        password VARCHAR(50) NOT NULL,
+        email VARCHAR(355) UNIQUE NOT NULL,
+        created_at TIMESTAMP NOT NULL,
+        last_login TIMESTAMP
+        );
+        ```
+      - Création de la table **role**
+        ``` sql
+        CREATE TABLE role(
+        role_id INT PRIMARY KEY,
+        role_name VARCHAR(255) UNIQUE NOT NULL
+        );
+        ```
+      - Création de la table **account_role**
+        ``` sql
+        CREATE TABLE account_role(
+        user_id INT NOT NULL,
+        role_id INT NOT NULL,
+        grant_date TIMESTAMP,
+        PRIMARY KEY (user_id,role_id)
+        );
+        ```
+  ### INSERT
+  - Quand on crée une table, elle est vide
+  - La première chose à faire est d\'insérer des données dans cette table
+  - On utilise la clause **INSERT** pour insérer des données dans la table
+  - On peut insérer une ligne ou plusieurs lignes d\'un coup
+  - 
+    
